@@ -1,0 +1,36 @@
+#!/bin/bash
+
+pngfile="$1"
+
+function clear_temp(){
+	rm /tmp/*blurlock*.png
+}
+
+function blur(){
+	scrot /tmp/screen_blurlock.png
+	convert /tmp/screen_blurlock.png -blur 0x5 /tmp/screen_blured_blurlock.png
+	i3lock -i /tmp/screen_blured_blurlock.png
+	clear_temp
+}
+
+function blurlogo(){
+
+	scrot /tmp/screen_blurlock.png
+	convert /tmp/screen_blurlock.png -blur 0x5 /tmp/screen_blured_blurlock.png
+	convert -composite /tmp/screen_blured_blurlock.png ${pngfile} -gravity South -geometry -20x1200 /tmp/screen_final_blurlock.png
+	i3lock -i /tmp/screen_final_blurlock.png
+	clear_temp
+}
+
+
+
+if ["$1" == ""]; then
+	blur
+	#clear_temp
+else
+	blurlogo
+	#clear_temp
+fi
+
+
+
