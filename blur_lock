@@ -1,6 +1,41 @@
 #!/bin/bash
 
-pngfile="$1"
+
+# Colors for i3lock-color support
+#B="#00000000"  # blank
+#C="#ffffff22"  # clear ish
+#D="#ff00ffcc"  # default
+#T="#ee00eeee"  # text
+#W="#880000bb"  # wrong
+#V="#bb00bbbb"  # verifying
+#####
+#B='#00000052'  # blank
+#C='#00000052'  # clear ish
+#T='#ffffffff'  # text
+#D='#ffffffff'  # default
+#W='#FF0000FF'  # wrong
+#W='#fba922ff'  # wrong
+#V='#FFFFFFFF'  # verifying
+#####
+#B='#00000000'  # blank
+#C='#ffffff22'  # clear ish
+#D='#ff00ffcc'  # default
+#T='#ee00eeee'  # text
+#W='#880000bb'  # wrong
+#####
+B="#21222cba"  # blank
+C="#69ff94ba"  # clear ish
+D="#6272a4ba"  # default
+T="#a4ffffba"  # text
+#T="#d6acffba"
+W="#a4ffffba"  # wrong
+V="#21222cba"  # verifying
+
+target="$1"
+pngfile="$2"
+location=${3:-Center}
+geo=${4:--20x1200}
+
 
 function clear_temp(){
 	rm /tmp/*blurlock*.png
@@ -9,25 +44,102 @@ function clear_temp(){
 function blur(){
 	scrot /tmp/screen_blurlock.png
 	convert /tmp/screen_blurlock.png -blur 0x5 /tmp/screen_blured_blurlock.png
-	i3lock -i /tmp/screen_blured_blurlock.png
-	clear_temp
+	#i3lock -i /tmp/screen_blured_blurlock.png
+    i3lock \
+        --insidevercolor=$C     \
+        --ringvercolor=$V       \
+        \
+        --insidewrongcolor=$C   \
+        --ringwrongcolor=$W     \
+        \
+        --insidecolor=$B        \
+        --ringcolor=$D          \
+        --linecolor=$B          \
+        --separatorcolor=$D     \
+        \
+        --verifcolor=$T         \
+        --wrongcolor=$T         \
+        --timecolor=$T          \
+        --datecolor=$T          \
+        --layoutcolor=$T        \
+        --keyhlcolor=$W         \
+        --bshlcolor=$W          \
+        \
+        --clock                 \
+        --indicator --indpos="110:975" \
+        --timestr="%H:%M:%S"    \
+        -i /tmp/screen_blured_blurlock.png
+    clear_temp
+}
+
+function start_up() {
+    i3lock \
+        --insidevercolor=$C     \
+        --ringvercolor=$V       \
+        \
+        --insidewrongcolor=$C   \
+        --ringwrongcolor=$W     \
+        \
+        --insidecolor=$B        \
+        --ringcolor=$D          \
+        --linecolor=$B          \
+        --separatorcolor=$D     \
+        \
+        --verifcolor=$T         \
+        --wrongcolor=$T         \
+        --timecolor=$T          \
+        --datecolor=$T          \
+        --layoutcolor=$T        \
+        --keyhlcolor=$W         \
+        --bshlcolor=$W          \
+        \
+        --clock                 \
+        --indicator --indpos="110:975" \
+        --timestr="%H:%M:%S"    \
+        -i ${pngfile}
+    clear_temp
 }
 
 function blurlogo(){
-
 	scrot /tmp/screen_blurlock.png
 	convert /tmp/screen_blurlock.png -blur 0x5 /tmp/screen_blured_blurlock.png
-	convert -composite /tmp/screen_blured_blurlock.png ${pngfile} -gravity South -geometry -20x1200 /tmp/screen_final_blurlock.png
-	i3lock -i /tmp/screen_final_blurlock.png
-	clear_temp
+	convert -composite /tmp/screen_blured_blurlock.png ${pngfile} -gravity ${location} -geometry ${geo} /tmp/screen_final_blurlock.png
+	#i3lock -i /tmp/screen_final_blurlock.png
+    i3lock \
+        --insidevercolor=$C     \
+        --ringvercolor=$V       \
+        \
+        --insidewrongcolor=$C   \
+        --ringwrongcolor=$W     \
+        \
+        --insidecolor=$B        \
+        --ringcolor=$D          \
+        --linecolor=$B          \
+        --separatorcolor=$D     \
+        \
+        --verifcolor=$T         \
+        --wrongcolor=$T         \
+        --timecolor=$T          \
+        --datecolor=$T          \
+        --layoutcolor=$T        \
+        --keyhlcolor=$W         \
+        --bshlcolor=$W          \
+        \
+        --clock                 \
+        --indicator --indpos="110:975" \
+        --timestr="%H:%M:%S"    \
+        -i /tmp/screen_final_blurlock.png
+    clear_temp
 }
 
 
-
-if ["$1" == ""]; then
+if [ "$1" == welcome ]; then
+	start_up
+    #clear_temp
+elif [ "$1" == outside ]; then
 	blur
 	#clear_temp
-else
+elif [ "$1" == home ]; then
 	blurlogo
 	#clear_temp
 fi
