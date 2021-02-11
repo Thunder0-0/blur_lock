@@ -31,7 +31,8 @@ T="#a4ffffba"  # text
 W="#a4ffffba"  # wrong
 V="#21222cba"  # verifying
 
-target="$1"
+
+mod="$1"
 pngfile="$2"
 location=${3:-Center}
 geo=${4:--20x1200}
@@ -72,7 +73,7 @@ function blur(){
     clear_temp
 }
 
-function start_up() {
+function start() {
     i3lock \
         --insidevercolor=$C     \
         --ringvercolor=$V       \
@@ -134,7 +135,7 @@ function blurlogo(){
 
 
 if [ "$1" == welcome ]; then
-	start_up
+	start
     #clear_temp
 elif [ "$1" == outside ]; then
 	blur
