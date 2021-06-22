@@ -1,7 +1,7 @@
 # blur_lock
 small shell script for blur lock
 
-That is a script when I started to use i3blurlock-blabla, to have more customization opportunities (It was probably i3lock-color, but not sure.).
+That is a script when I started to use i3blurlock-color, to have more customization opportunities.
 Therefore, it is a small custom bash script that has three(3) modes: start, home and outside. 
 
 Modes:
